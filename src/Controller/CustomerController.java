@@ -37,12 +37,8 @@ public class CustomerController {
             }
         }
         System.out.println(list.getListCustomer().toString());
-        try {
-            WriteFile(list);
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+
+        WriteFile(list);
 
     }
 
@@ -57,12 +53,8 @@ public class CustomerController {
             }
         }
         list.setListCustomer(temp);
-        try {
-            WriteFile(list);
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        WriteFile(list);
+
     }
 
     public void Display(ListOfCustomer list) throws IOException {
@@ -145,15 +137,32 @@ public class CustomerController {
     }
 
     // Add/Update Customer
-    public void WriteFile(ListOfCustomer list) throws Exception {
+    public void WriteFile(ListOfCustomer list) {
 
-        // Write Object into File
-        FileOutputStream fo = new FileOutputStream("Customer.txt");
-        ObjectOutputStream oo = new ObjectOutputStream(fo);
-        for (int i = 0; i < list.getLength(); i++) {
-            oo.writeObject(list.getListCusi(i));
+        // // Write Object into File
+        // FileOutputStream fo = new FileOutputStream("Customer.txt");
+        // ObjectOutputStream oo = new ObjectOutputStream(fo);
+        // for (int i = 0; i < list.getLength(); i++) {
+        // oo.writeObject(list.getListCusi(i));
+        // }
+        // oo.close();
+        ObjectOutputStream oo = null;
+        try {
+            oo = new ObjectOutputStream(new FileOutputStream("Customer.txt"));
+            for (int i = 0; i < list.getLength(); i++) {
+                oo.writeObject(list.getListCusi(i));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (oo != null) {
+                try {
+                    oo.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
-        oo.close();
 
     }
 
@@ -190,47 +199,14 @@ public class CustomerController {
 
     }
 
-    public void FindCustomer(ListOfCustomer list) throws IOException {
-        Scanner sc = new Scanner(System.in);
-        ReadFile(list);
-
-        String option = " ";
-        String search;
-        do {
-            System.out.println("1: Find by name");
-            System.out.println("2: Find by phoneNum");
-            System.out.println("3: Find by accountNum");
-            System.out.println("Enter Your Option: ");
-            option = sc.nextLine();
-
-            search = sc.nextLine();
-            switch (option) {
-                case "1":
-                    for (Customer c : list.getListCustomer()) {
-                        if (c.getName().contains(search)) {
-                            System.out.println(c);
-                        }
-                    }
-                    break;
-                case "2":
-                    for (Customer c : list.getListCustomer()) {
-                        if (c.getPhoneNum().contains(search)) {
-                            System.out.println(c);
-                        }
-                    }
-                    break;
-                case "3":
-                    for (Customer c : list.getListCustomer()) {
-                        if (c.getAccountNum().contains(search)) {
-                            System.out.println(c);
-                        }
-                    }
-                    break;
-                default:
-                    System.out.println("No Result");
-                    break;
+    public int LocatedID(int cusID, ListOfCustomer list) {
+        int index = -1;
+        for (int i = 0; i < list.getLength(); i++) {
+            if (list.getListCusi(i).getCusID() == cusID) {
+                index = i;
             }
-        } while (!option.equals(""));
-    }
 
+        }
+        return index;
+    }
 }

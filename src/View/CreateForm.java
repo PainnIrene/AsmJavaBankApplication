@@ -421,12 +421,9 @@ public class CreateForm extends javax.swing.JFrame {
                                         gender, password, yearBorn,
                                         list);
                         list.getListCustomer().add(c);
-                        try {
-                                controller.WriteFile(list);
-                        } catch (Exception e) {
-                                // TODO Auto-generated catch block
-                                e.printStackTrace();
-                        }
+
+                        controller.WriteFile(list);
+
                         setVisible(false);
                         Reload(CustomerTable);
                 }

@@ -31,6 +31,8 @@ public class Home extends javax.swing.JPanel {
         public JPanel getHomeView() {
                 totalAccount();
                 countAverage();
+                countTransaction();
+
                 return HomePanel;
         }
 
@@ -311,12 +313,32 @@ public class Home extends javax.swing.JPanel {
                 LocalDate currentDate = LocalDate.now();
                 int currentYear = currentDate.getYear();
                 double averageAge = 0;
-                for (int i = 0; i < list.getLength(); i++) {
-                        averageAge += (currentYear - list.getListCusi(i).getYearBorn());
+                if (list.getLength() == 0) {
+                        TotalAccountField2.setText("0");
+
+                } else {
+                        for (int i = 0; i < list.getLength(); i++) {
+                                averageAge += (currentYear - list.getListCusi(i).getYearBorn());
+                        }
+                        averageAge /= list.getLength();
+                        String text = Double.toString(averageAge);
+                        TotalAccountField2.setText(text);
+
                 }
-                averageAge /= list.getLength();
-                String text = Double.toString(averageAge);
-                TotalAccountField2.setText(text);
+
+        }
+
+        public void countTransaction() {
+                CustomerController controller = new CustomerController();
+                controller.ReadFile(list);
+                int count = 0;
+                for (int i = 0; i < list.getLength(); i++) {
+                        for (int j = 0; j < list.getListCusi(i).getListTransaction().size(); j++) {
+                                count++;
+                        }
+                }
+                String text = Integer.toString(count);
+                TotalAccountField1.setText(text);
         }
 
         // Variables declaration - do not modify//GEN-BEGIN:variables

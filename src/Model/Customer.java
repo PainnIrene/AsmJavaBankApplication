@@ -1,6 +1,7 @@
 package Model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class Customer implements Serializable {
     private int cusID;
@@ -11,6 +12,8 @@ public class Customer implements Serializable {
     private boolean gender;
     private int yearBorn;
     private String password;
+
+    private ArrayList<Transaction> ListTransaction;
 
     // init Customer with automactic gene CusID
     public Customer(String name, String phoneNum, String accountNum, double accountBalance, boolean gender,
@@ -29,7 +32,16 @@ public class Customer implements Serializable {
         this.gender = gender;
         this.password = password;
         this.yearBorn = yearBorn;
+        this.ListTransaction = new ArrayList<Transaction>();
 
+    }
+
+    public ArrayList<Transaction> getListTransaction() {
+        return ListTransaction;
+    }
+
+    public void setListTransaction(ArrayList<Transaction> listTransaction) {
+        ListTransaction = listTransaction;
     }
 
     public boolean getGender() {

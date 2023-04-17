@@ -27,6 +27,7 @@ public class EditForm extends javax.swing.JFrame {
         public EditForm(JTable CustomerTable) {
                 initComponents();
                 this.CustomerTable = CustomerTable;
+                setLocationRelativeTo(null);
         }
 
         /**
