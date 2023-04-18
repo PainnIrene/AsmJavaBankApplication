@@ -7,6 +7,7 @@ package View;
 import java.io.IOException;
 
 import javax.swing.ButtonModel;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
@@ -497,6 +498,8 @@ public class EditForm extends javax.swing.JFrame {
                                 list);
                 c.setCusID(cusID);
                 controller.Update(cusID, c);
+                // announcement success
+                JOptionPane.showMessageDialog(this, "Edit Successful");
 
                 setVisible(false);
                 //

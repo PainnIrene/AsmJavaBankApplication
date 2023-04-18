@@ -59,11 +59,7 @@ public class CustomerController {
 
     public void Display(ListOfCustomer list) throws IOException {
         CheckFileExist();
-        try {
-            ReadFile(list);
-
-        } catch (Exception e) {
-        }
+        ReadFile(list);
 
         String header[] = { "Name", "Age", "Gender", "Account Number", "Account Balance" };
 
@@ -123,12 +119,8 @@ public class CustomerController {
                 password, yearBorn, list);
 
         // UpdateList
-        try {
-            ReadFile(list);
+        ReadFile(list);
 
-        } catch (Exception e) {
-
-        }
         // addObject Into ListOfCustomer
         list.getListCustomer().add(c);
         // addList Into File
@@ -139,62 +131,39 @@ public class CustomerController {
     // Add/Update Customer
     public void WriteFile(ListOfCustomer list) {
 
-        // // Write Object into File
-        // FileOutputStream fo = new FileOutputStream("Customer.txt");
-        // ObjectOutputStream oo = new ObjectOutputStream(fo);
-        // for (int i = 0; i < list.getLength(); i++) {
-        // oo.writeObject(list.getListCusi(i));
-        // }
-        // oo.close();
         ObjectOutputStream oo = null;
         try {
             oo = new ObjectOutputStream(new FileOutputStream("Customer.txt"));
             for (int i = 0; i < list.getLength(); i++) {
                 oo.writeObject(list.getListCusi(i));
             }
+            oo.close();
         } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (oo != null) {
-                try {
-                    oo.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
         }
 
     }
 
     public void ReadFile(ListOfCustomer list) {
-        // Check file empty or not(Avoid EOFEException)
+        // Check file empty or not(Avoid EOFException)
         list.getListCustomer().clear();
         FileInputStream fileIn = null;
         ObjectInputStream objectIn = null;
+        boolean loop = true;
         try {
             fileIn = new FileInputStream("Customer.txt");
             objectIn = new ObjectInputStream(fileIn);
-            while (true) {
+
+            while (loop) {
                 Customer obj = (Customer) objectIn.readObject();
                 list.getListCustomer().add(obj);
             }
-        } catch (ClassNotFoundException | IOException e) {
+            objectIn.close();
+            fileIn.close();
 
-        } finally {
-            if (objectIn != null) {
-                try {
-                    objectIn.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            if (fileIn != null) {
-                try {
-                    fileIn.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
+        } catch (EOFException e) {
+            loop = false;
+        } catch (ClassNotFoundException | IOException e) {
+            e.printStackTrace();
         }
 
     }

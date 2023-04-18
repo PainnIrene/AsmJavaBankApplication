@@ -423,6 +423,7 @@ public class CreateForm extends javax.swing.JFrame {
                         list.getListCustomer().add(c);
 
                         controller.WriteFile(list);
+                        JOptionPane.showMessageDialog(this, "Create new Customer Successful");
 
                         setVisible(false);
                         Reload(CustomerTable);

@@ -4,6 +4,7 @@
  */
 package View;
 
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 
 import javax.swing.JPanel;
@@ -313,6 +314,7 @@ public class Home extends javax.swing.JPanel {
                 LocalDate currentDate = LocalDate.now();
                 int currentYear = currentDate.getYear();
                 double averageAge = 0;
+                DecimalFormat decimalFormat = new DecimalFormat("#.#");
                 if (list.getLength() == 0) {
                         TotalAccountField2.setText("0");
 
@@ -321,7 +323,9 @@ public class Home extends javax.swing.JPanel {
                                 averageAge += (currentYear - list.getListCusi(i).getYearBorn());
                         }
                         averageAge /= list.getLength();
-                        String text = Double.toString(averageAge);
+
+                        // String text = Double.toString(averageAge);
+                        String text = decimalFormat.format(averageAge);
                         TotalAccountField2.setText(text);
 
                 }
